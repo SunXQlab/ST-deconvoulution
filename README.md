@@ -14,7 +14,6 @@ The major new findings include:
 5) the integrative method, EnDecon, could achieve more accurate ST deconvolution.<br>
 --------------------------
 Datasets
----------------------------
 All datasets can be downloaded from their respective sources:<br>
 * mouse embryo was downloaded from the National Center for Biotechnology Information (NCBI) under GSE166692<br>
 * MPOA was downloaded from https://datadryad.org/stash/dataset/doi:10.5061/dryad.8t8s248/<br>
@@ -23,7 +22,6 @@ All datasets can be downloaded from their respective sources:<br>
 * human developing heart ST data was downloaded from https://data.mendeley.com/datasets/mbvhhf8m62/2<br>
 ---------------------------------
 Dependencies and requirements for disentangle discrete cell types from spatial mixtures<br>
-------------------------------------------------------
 **R**<br>
 RCTD(by spacexr of version 2.0.0)<br>
 Giotto/PAGE/RANK/Hypergeometric(Version 1.1.0)<br>
