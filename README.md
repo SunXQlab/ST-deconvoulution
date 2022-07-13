@@ -11,7 +11,7 @@ The major new findings include:
 2) cell2location and spatialDWLS are more robust to the variation of sequencing depth than RCTD;<br>
 3) the accuracy of the existing methods tends to decrease as the spot size becomes smaller;<br> 
 4) most decon-volution methods perform best when they normalize ST data using the method described in their origi-nal papers;<br> 
-5) the integrative method, EnDecon, could achieve more accurate ST deconvolution.<br>
+5) the integrative method, EnDecon, could achieve more accurate ST deconvolution.
 --------------------------
 Datasets
 All datasets can be downloaded from their respective sources:<br>
@@ -19,9 +19,9 @@ All datasets can be downloaded from their respective sources:<br>
 * MPOA was downloaded from https://datadryad.org/stash/dataset/doi:10.5061/dryad.8t8s248/<br>
 * mouse brain ST data was download from https://www.dropbox.com/s/azjysbt7lbpmbew/brain_st_cortex.rds?dl=0 <br>
 * mouse brain scRNA-seq data was downloaded from https://www.dropbox.com/s/ruseq3necn176c7/brain_sc.rds?dl=0<br>
-* human developing heart ST data was downloaded from https://data.mendeley.com/datasets/mbvhhf8m62/2<br>
+* human developing heart ST data was downloaded from https://data.mendeley.com/datasets/mbvhhf8m62/2
 ---------------------------------
-Dependencies and requirements for disentangle discrete cell types from spatial mixtures<br>
+Dependencies and requirements for disentangle discrete cell types from spatial mixtures
 **R**<br>
 RCTD(by spacexr of version 2.0.0)<br>
 Giotto/PAGE/RANK/Hypergeometric(Version 1.1.0)<br>
