@@ -27,12 +27,12 @@ All datasets can be downloaded from their respective sources:<br>
 Dependencies and requirements for disentangle discrete cell types from spatial mixtures
 ---------------------------------
 **R**<br>
-RCTD(by spacexr of version 2.0.0)
-Giotto/PAGE/RANK/Hypergeometric(Version 1.1.0)
-spatialDWLS(by Giotto of Version 1.0.4)
-SPOTlight(Version 0.1.7)
-Seurat(Version 4.0.5)
-STdeconvolve(Version 0.1.0)
+RCTD(by spacexr of version 2.0.0)<br>
+Giotto/PAGE/RANK/Hypergeometric(Version 1.1.0)<br>
+spatialDWLS(by Giotto of Version 1.0.4)<br>
+SPOTlight(Version 0.1.7)<br>
+Seurat(Version 4.0.5)<br>
+STdeconvolve(Version 0.1.0)<br>
 EnDecon<br>
 **Python**<br>
 cell2location(Version 0.7a0)<br>
