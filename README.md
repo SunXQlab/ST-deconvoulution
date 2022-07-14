@@ -9,10 +9,10 @@ to benchmark 14 different deconvlution methods. Furthermore, we investigate the 
 the choice of normalization. Moreover, we propose a new ensemble learning-based deconvolution method (EnDecon) by integrating multiple individual 
 methods for more accurate deconvolution.
 The main steps of benchamrking pipeline include: 
-1) we employed two staregies to generate synthetic ST datasets with known cell type compositions as ground truth. For single-cell resolution ST data, we adopted 'grid' method to simulated ST data. For scRNA-seq data, we firstly first mapped it to the spatial locations of ST data to synthesize single-cell resolution ST data, and then simulated spatial mixtures with known cell type proportions using the ‘grid’ method;<br> 
-2) we investigated the robustness of different methods to sequencing depth, spot size, and the choice of normalization;<br> 
-3) we used RMSE, PCC, JSD to evaluate the performance of the 14 computational methods in disentangling cell type contribution from a single capture spot based on the above synthetic ST datasets;<br>
-4) we developed an ensemble learning-based deconvolution method (EnDecon) for ST data by drawing on strengths from existing methods;<br> 
+1) We employed two staregies to generate synthetic ST datasets with known cell type compositions as ground truth. For single-cell resolution ST data, we adopted 'grid' method to simulated ST data. For scRNA-seq data, we firstly first mapped it to the spatial locations of ST data to synthesize single-cell resolution ST data, and then simulated spatial mixtures with known cell type proportions using the ‘grid’ method.<br> 
+2) We investigated the robustness of different methods to sequencing depth, spot size, and the choice of normalization.<br> 
+3) We used RMSE, PCC, JSD to evaluate the performance of the 14 computational methods in disentangling cell type contribution from a single capture spot based on the above synthetic ST datasets.<br>
+4) We developed an ensemble learning-based deconvolution method (EnDecon) for ST data by drawing on strengths from existing methods.<br> 
 
 Datasets
 --------------------------
