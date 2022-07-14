@@ -4,7 +4,7 @@ Benchmarking and integration of methods for deconvoluting spatial transcriptomic
 
 Implementation descripttion
 --------------------------
-we collected three synthetic ST datasets with known single-cell compositions and a human heart ST dataset with known regional cell type information
+We collected three synthetic ST datasets with known single-cell compositions and a human heart ST dataset with known regional cell type information
 to benchmark 14 different deconvlution methods. Furthermore, we investigate the robustness of different methods to sequencing depth, spot size, and 
 the choice of normalization. Moreover, we propose a new ensemble learning-based deconvolution method (EnDecon) by integrating multiple individual 
 methods for more accurate deconvolution.
