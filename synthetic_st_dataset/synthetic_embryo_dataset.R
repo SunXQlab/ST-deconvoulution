@@ -149,7 +149,23 @@ ds_spot_unique <- ds_spot_unique[,-1394]
 #spatial count data and meta data
 slide14_spatial_count <- ds_spot_unique
 
-#single cell count data and metadata
+#Genearte scRNA-seq Seurat object
+sc_data <- CreateSeuratObject(counts = slide14_count_mat,
+                              meta.data = slide14_cell_meta,
+                              assay = "RNA")
+
+#Generate ST Seurat object
+rownames(ds_spot_metadata) <- colnames(ds_spot_unique)
+st_data <- CreateSeuratObject(counts = ds_spot_unique,
+                              meta.data = ds_spot_metadata,
+                              assay = "Spatial")
+
+spatial_coords <- read_csv(file=paste0(getwd(),'/Dataset/embryo_sci-Space_raw/spatial_coordinate.csv'))
+st_data@images$coordinate <- spatial_coords
+
+saveRDS(sc_data,file="/home/yll/benchmark_github/synthetic_st_dataset/embryo_singlecell_dataset.rds")
+saveRDS(st_data,file="/home/yll/benchmark_github/synthetic_st_dataset/embryo_spatialspot_dataset.rds")
+
 
 
 
