@@ -3,16 +3,25 @@
 #' @param test_spots_metadata Object of class matrix containing the ground truth composition of each spot as obtained from the function syn_spot_comb_topic_fun.R, 2nd element.
 #' @param spot_composition_mtrx Object of class matrix with the predicted topic probability distributions for each spot.
 #' @return This function returns a list with TP, TN, FP, FN and the Jensen-Shannon Divergence index.
+#' If you wanna test the performance of your model on synthetic generated test spots you can use this function to benchmark and get a sense of the model's performance.
+#'
+#' @param ground_truth_mtrx Object of class matrix containing the ground truth composition of each spot as obtained from the function syn_spot_comb_topic_fun.R, 2nd element.
+#' @param deconvoluted_mtrx Object of class matrix with the predicted topic probability distributions for each spot.
+#' @return This function returns a list with TP, TN, FP, FN and the Jensen-Shannon Divergence index.
 #' @export
 #' @examples
 #'
 
-test_synthetic_performance <- function(ground_truth_mtrx,
-                                       deconvoluted_mtrx) {
+benchmark_performance <- function(ground_truth_mtrx,
+                                  deconvoluted_mtrx) {
   # Check variables
   if (!is.matrix(ground_truth_mtrx)) stop("ERROR: ground_truth_mtrx must be a matrix object!")
   if (!is.matrix(deconvoluted_mtrx)) stop("ERROR: deconvoluted_mtrx must be a matrix object!")
-  if (!dim(ground_truth_mtrx)==dim(deconvoluted_mtrx)) stop("ERROR: the dimension of ground_truth_mtrx and deconvoluted_mtrx must equial!")
+  
+  if (!dim(ground_truth_mtrx)[1] == dim(deconvoluted_mtrx)[1]){
+    pos <- which(!rownames(ground_truth_mtrx) %in% rownames(deconvoluted_mtrx))
+    ground_truth_mtrx <- ground_truth_mtrx[-pos, ]
+  }
   
   colnames(deconvoluted_mtrx) <- gsub(pattern = "[[:punct:]]|[[:blank:]]", ".",
                                 x = colnames(deconvoluted_mtrx),
@@ -52,7 +61,6 @@ test_synthetic_performance <- function(ground_truth_mtrx,
    }
   ##### JSD between real-predicted proportions #####
   true_jsd_mtrx <- matrix(nrow = nrow(ground_truth_mtrx), ncol = 1)
-  tp <- 0; tn <- 0; fp <- 0; fn <- 0
   for (i in seq_len(nrow(ground_truth_mtrx))) {
 
     # Create matrix to feed to JSD
