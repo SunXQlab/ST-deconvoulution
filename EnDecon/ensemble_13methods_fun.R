@@ -1,8 +1,8 @@
-setwd("/home/yll/spatial_decon_methods/ensemble_methods_results")
 ls()
 rm(list = ls())
-
+library(philentropy)
 library(readr)
+
 results <- read_csv("~/spatial_decon_methods/ensemble_methods_results/ensemble_results_13methods.csv")
 emb_results <- results[which(results$Dataset=="embryo(sci-Space)"), ]
 mer_results <- results[which(results$Dataset=="MPOA(MERFISH)"), ]
@@ -19,7 +19,7 @@ rank_JSD <- 14 - rank(emb_results$`quants_jsd_50%`)#rank_RMSE值越大表达排�
 emb_rank <- data.frame(Methods = emb_results$Method,Dataset = emb_results$Dataset,
                        rank_RMSE = rank_RMSE, rank_Pearson = rank_Pearson, rank_JSD = rank_JSD)
 emb_results$AS <- rowMeans(emb_rank[3:5])#值越大表明排名越靠前，性能越好
-emb_rank$rank_AS <- 14 - rank(emb_results$AS)#值越小表明排名越靠前，性能越好
+emb_rank$rank_AS <- 14 - rank(emb_results$AS)#(Ave_score)值越小表明排名越靠前，性能越好
 
 ## The rank of different methods in MPOA (MERFISH) dataset
 mer_results <- mer_results[order(mer_results$RMSE), ]
@@ -62,105 +62,129 @@ Ave_rank <- Ave_rank[order(Ave_rank$Ave_score), ]
 a <- 1/(1+exp(Ave_rank$Ave_score)) 
 Ave_rank$weight <- a/sum(a)
 
-load("/home/yll/spatial_decon_methods/ensemble_methods_results/brain_11methods_results/brain_11methods_decon_mtrix.RData")
-load("~/spatial_decon_methods/ensemble_methods_results/brain_11methods_results/brain_groundtruth.RData")
+#load 13 different deconvlution results
+#read deconvolution results using R: RCTD, spatialDWLS, SPOTlight, Giotto/RAGE/rank/hypergeometric,
+#Seurat, spatialDecon, STdeconvolve
+decon_result <- read_csv("deconvolution_results/decon_RCTD/decon_result.csv")
+inputDir <- paste0(getwd(),'/deconvolution_results/')
+files <- list.files(inputDir)
+diff_deconlist <- list()
+for (f in files) {
+  
+  decon_mtrx = read_csv(paste0(getwd(),'/deconvolution_results/',f,"/decon_result.csv"))
+  diff_deconlist[[f]] = decon_mtrx
+  
+}
 
-expected_result <- as.matrix(slide14_ground_truth)
-colnames(expected_result) <- gsub("\\.", " ",colnames(expected_result))
-pos <- which(!rownames(expected_result) %in% rownames(decon_STdeconvolve))
-expected_result <- expected_result[-pos, ]
+#read deconvolution results using python: cell2location, DestVI, Tangram, STRIDE
+#cell2location
+decon_cell2location <- read_csv("~/cell2loction/cell2location_means_result.csv")
+decon_cell2location <- column_to_rownames(decon_cell2location,var = "...1")
+colnames(decon_cell2location) <- gsub("meanscell_abundance_w_sf_","",colnames(decon_cell2location))
+Colname <- colnames(decon_cell2location)
+decon_cell2location <- t(apply(decon_cell2location,1,as.numeric))
+colnames(decon_cell2location) <- Colname 
 
+#Tangram
+decon_Tangram <- read.csv2(file = "embryo_Tangram_proportion.csv",sep = ",")
+decon_Tangram <- column_to_rownames(decon_Tangram,var="X")
+
+#DestVI
+decon_DestVI <- read.csv2(file = "merfish_UV_proportion.csv",sep = ",")
+decon_DestVI <- column_to_rownames(decon_DestVI,var="X")
+decon_DestVI <- decon_DestVI[,-10]
+
+#STRIDE
+decon_STRIDE <- read.table(file="/home/yll/STRIDE/Results/MERFISH_spot_celltype_frac.txt",
+                           header = TRUE)
+
+all(rownames(decon_cell2location) == rownames(decon_Hyper))
+all(rownames(decon_Hyper) == rownames(decon_PAGE))
+all(colnames(decon_PAGE) == colnames(decon_rank))
+all(colnames(decon_rank) == colnames(decon_spatialDWLS))
+all(colnames(decon_spatialDWLS) == colnames(decon_Seurat))
+all(colnames(decon_Seurat) == colnames(decon_spatialDecon))
+all(colnames(decon_spatialDecon) == colnames(decon_STRIDE))
+all(colnames(decon_STRIDE) == colnames(decon_SPOTlight))
+all(colnames(decon_SPOTlight) == colnames(decon_STdeconvolve))
+
+pos <- which(!rownames(decon_cell2location) %in% rownames(decon_RCTD))
+
+decon_cell2location <- decon_cell2location[-pos, ]
+decon_cell2location <- decon_cell2location[rownames(expected_result),]
+colnames(decon_cell2location) <- gsub("\\.", " ",colnames(decon_cell2location))
+decon_cell2location <- decon_cell2location[,colnames(expected_result)]
+
+decon_PAGE <- decon_PAGE[rownames(decon_Hyper), ]
+decon_PAGE <- decon_PAGE[-pos, ]
+decon_PAGE <- decon_PAGE[rownames(expected_result),]
+colnames(decon_PAGE) <- gsub("\\.", " ",colnames(decon_PAGE))
+decon_PAGE <- decon_PAGE[,colnames(expected_result)]
+
+decon_Hyper <- decon_Hyper[-pos, ]
+decon_Hyper <- decon_Hyper[rownames(expected_result),]
+colnames(decon_Hyper) <- gsub("\\.", " ",colnames(decon_Hyper))
+decon_Hyper <- decon_Hyper[,colnames(expected_result)]
+
+decon_rank <- decon_rank[-pos, ]
+decon_rank <- decon_rank[rownames(expected_result),]
+colnames(decon_rank) <- gsub("\\.", " ",colnames(decon_rank))
+decon_rank <- decon_rank[,colnames(expected_result)]
+
+decon_Seurat <- decon_Seurat[-pos, ]
+decon_Seurat <- decon_Seurat[rownames(expected_result),]
+colnames(decon_Seurat) <- gsub("\\.", " ",colnames(decon_Seurat))
+decon_Seurat <- decon_Seurat[,colnames(expected_result)]
+
+decon_spatialDecon <- decon_spatialDecon[-pos, ]
+decon_spatialDecon <- decon_spatialDecon[rownames(expected_result),]
+colnames(decon_spatialDecon) <- gsub("\\.", " ",colnames(decon_spatialDecon))
+decon_spatialDecon <- decon_spatialDecon[,colnames(expected_result)]
+
+decon_spatialDWLS <- decon_spatialDWLS[-pos, ]
+decon_spatialDWLS <- decon_spatialDWLS[rownames(expected_result),]
+colnames(decon_spatialDWLS) <- gsub("\\.", " ",colnames(decon_spatialDWLS))
+decon_spatialDWLS <- decon_spatialDWLS[,colnames(expected_result)]
+
+decon_SPOTlight <- decon_SPOTlight[-pos, ]
+decon_SPOTlight <- decon_SPOTlight[rownames(expected_result),]
+colnames(decon_SPOTlight) <- gsub("\\.", " ",colnames(decon_SPOTlight))
+decon_SPOTlight <- decon_SPOTlight[,colnames(expected_result)]
+
+decon_STdeconvolve <- decon_STdeconvolve[-pos, ]
+decon_STdeconvolve <- decon_STdeconvolve[rownames(expected_result),]
+colnames(decon_STdeconvolve) <- gsub("\\.", " ",colnames(decon_STdeconvolve))
+decon_STdeconvolve <- decon_STdeconvolve[,colnames(expected_result)]
+decon_STdeconvolve <- decon_STdeconvolve - (1e-12)
+
+decon_STRIDE <- decon_STRIDE[-pos, ]
+decon_STRIDE <- decon_STRIDE[rownames(expected_result),]
+colnames(decon_STRIDE) <- gsub("\\.", " ",colnames(decon_STRIDE))
+decon_STRIDE <- decon_STRIDE[,colnames(expected_result)]
+
+decon_Tangram <- decon_Tangram[-pos, ]
+decon_Tangram <- decon_Tangram[rownames(expected_result),]
+colnames(decon_Tangram) <- gsub("\\.", " ",colnames(decon_Tangram))
+decon_Tangram <- decon_Tangram[,colnames(expected_result)]
+
+decon_DestVI <- decon_DestVI[-pos, ]
+decon_DestVI <- decon_DestVI[rownames(expected_result),]
+colnames(decon_DestVI) <- gsub("\\.", " ",colnames(decon_DestVI))
+decon_DestVI <- decon_DestVI[,colnames(expected_result)]
+
+#Intergation 13 methods by experional weight
 w <- Ave_rank$weight
 decon_ensemble <- w[1]*decon_cell2location+w[2]*decon_RCTD+w[3]*decon_spatialDWLS+
   w[4]*decon_spatialDecon + w[5]*decon_Seurat +  w[6]*decon_Tangram+
   w[7]*decon_STRIDE + w[8]*decon_Hyper + w[9]*decon_PAGE+
   w[10]*decon_SPOTlight+w[11]*decon_rank+w[12]*decon_STdeconvolve+w[13]*decon_DestVI
 
-observed_values <- unlist(lapply(seq_len(ncol(decon_ensemble)), function(i) decon_ensemble[,i]))
-expected_values <- unlist(lapply(seq_len(ncol(expected_result)), function(i) expected_result[,i]))
-
-#total RMSE and Pearson
-RMSE <- sqrt(mean((observed_values - expected_values)^2)) %>% round(.,4)
-Pearson <- cor(observed_values,expected_values) %>% round(.,4)
-
-x <- rbind(observed_values,expected_values)
-JSD <- JSD(x = x, unit = "log2",est.prob = "empirical") %>% round(.,4)
-
-#RMSE each type
-integrated_RMSE_ct <- NULL
-for (i in seq_len(dim(expected_result)[2])){
-  rmse<- sqrt(mean((decon_ensemble[,i] - expected_result[,i])^2))
-  integrated_RMSE_ct <- c(integrated_RMSE_ct,rmse)
-}
-
-##### Get TRUE JSD between real-predicted proportions #####
-true_jsd_mtrx <- matrix(nrow = nrow(decon_ensemble), ncol = 1)
-for (i in seq_len(nrow(decon_ensemble))) {
-  
-  # Create matrix to feed to JSD
-  x <- rbind(decon_ensemble[i, ],
-             expected_result[i, ])
-  
-  # Calculate JSD and save it in true_JSD_mtrx
-  if(sum(expected_result[i, ]) > 0) {
-    true_jsd_mtrx[i, 1] <- suppressMessages(JSD(x = x, unit = "log2",
-                                                est.prob = "empirical"))
-  } else {
-    true_jsd_mtrx[i, 1] <- 1
-  }
-}; rm(i)
-
-quants_jsd <- round(quantile(matrixStats::rowMins(true_jsd_mtrx,
-                                                  na.rm = TRUE),
-                             c(0.25, 0.5, 0.75)), 5)
-
-cat(sprintf("The following summary statistics are obtained:
-              RMSE: %s,
-              Pearson: %s,
-              JSD: %s,
-              JSD quantiles: %s[%s-%s]",
-            RMSE, Pearson, JSD,quants_jsd[[2]], quants_jsd[[1]], quants_jsd[[3]]), sep = "\n")
+result <- benchmark_performance(ground_truth_mtrx = as.matrix(st_seurat@meta.data[7:15]),
+                                deconvoluted_mtrx = decon_ensemble)
 
 
-Ave_rank <- Ave_rank[order(Ave_rank$Ave_score), ]
-Ave_rank$Methods <- factor(Ave_rank$Methods,
-                               levels = c("cell2location","RCTD","spatialDWLS","spatialDecon","Seurat 3.0","Tangram",
-                                          "STRIDE","Giotto/Hypergeometric","Giotto/PAGE","SPOTlight","Giotto/rank",
-                                          "STdeconvolve","DestVI"))
-Ave_rank$Methods <- factor(Ave_rank$Methods,
-                          levels = c("DestVI","STdeconvolve","Giotto/rank","SPOTlight","Giotto/PAGE","Giotto/Hypergeometric",
-                                     "STRIDE","Tangram","Seurat 3.0","spatialDecon","spatialDWLS","RCTD",
-                                      "cell2location"))
-mycolor <- c("DestVI" = "#E6550DFF",
-             "Giotto/rank" = "#636363FF" ,
-             "STdeconvolve"="#9ECAE1FF",
-             "SPOTlight"="#969696FF",
-             "Giotto/PAGE" = "#756BB1FF",
-             "spatialDecon"="#74C476FF",
-             "Giotto/Hypergeometric"="#31A354FF",
-             "Seurat 3.0"="#FD8D3CFF",
-             "STRIDE" = "#A1D99BFF",
-             "Tangram" = "#BCBDDCFF",
-             "RCTD" = "#6BAED6FF",
-             "spatialDWLS"="#9E9AC8FF",
-             "cell2location"="#3182BDFF")
 
-ggplot(data=Ave_rank, aes(x=Methods,y=Ave_score,fill=Methods)) +
-  geom_bar(stat = "identity",position=position_dodge(0.75),width = 0.6) +
-  scale_fill_manual(values =  mycolor) + 
-  #facet_wrap(~Dataset) + 
-  coord_flip() + 
-  #scale_y_reverse() +
-  theme_bw() + #去除背景色
-  theme(panel.grid = element_blank()) +
-  theme(axis.text.x=element_text(size=8,face="bold",vjust=1, hjust = 1,angle=0)) +
-  theme(legend.text = element_text(size = 8),
-        legend.title = element_text(size=8)) +
-  labs(x="Methods", y="Rank",fill="Methods") +
-  guides(fill="none")
 
-ggsave(file="/home/yll/spatial_decon_methods/evaluation_metric/figure/ensembel_13methods_rank.pdf",
-       width=8, height=6)
 
 
 
