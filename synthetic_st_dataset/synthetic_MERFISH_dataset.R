@@ -205,17 +205,27 @@ simFN7 <- list(sim = sim_N7,
                # classColors = classColors,
                annotDf = annotDf_N7)
 
+#Genearte scRNA-seq Seurat object
+annotDf_N7 <- simFN7$annotDf
+sc_data <- CreateSeuratObject(counts = t(counts_[rownames(annotDf_N7), ]),
+                              meta.data = annotDf_N7,
+                              assay = "RNA")
+
 #Generate ST Seurat object
-rownames(ds_spot_metadata) <- colnames(ds_spot_unique)
-st_data <- CreateSeuratObject(counts = ds_spot_unique,
-                              meta.data = ds_spot_metadata,
-                              assay = "Spatial")
+counts_st <- t(as.matrix(simFN7$sim))
+spatial_loc <- simFN7$cellCounts #spatial locations
+groundtruth <- as.data.frame(simFN7$gtSpotTopics)
+sp_meta <- cbind(spatial_loc, groundtruth)
+st_data <- CreateSeuratObject(counts = t(as.matrix(simFN7$sim)),
+                                 meta.data = sp_meta,
+                                 assay = "Spatial")
 
-spatial_coords <- read_csv(file=paste0(getwd(),'/Dataset/embryo_sci-Space_raw/spatial_coordinate.csv'))
-st_data@images$coordinate <- spatial_coords
 
-saveRDS(sc_data,file="/home/yll/benchmark_github/synthetic_st_dataset/embryo_singlecell_dataset.rds")
-saveRDS(st_data,file="/home/yll/benchmark_github/synthetic_st_dataset/embryo_spatialspot_dataset.rds")
+saveRDS(sc_data,file="/home/yll/benchmark_github/synthetic_st_dataset/MERFISH_singlecell_dataset.rds")
+saveRDS(st_data,file="/home/yll/benchmark_github/synthetic_st_dataset/MERFISH_spatialspot_dataset.rds")
+
+
+
 
 
 
