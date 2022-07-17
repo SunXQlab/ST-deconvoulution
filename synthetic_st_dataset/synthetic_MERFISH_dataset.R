@@ -205,8 +205,18 @@ simFN7 <- list(sim = sim_N7,
                # classColors = classColors,
                annotDf = annotDf_N7)
 
-save(annotDf_N7,counts_,file="/home/yll/benchmark_github/Dataset/synthetic_st_dataset/MERFISH_singlecell_dataset.RData")
-save(simFN7,file="/home/yll/benchmark_github/Dataset/synthetic_st_dataset/MERFISH_spatialspot_dataset.RData")
+#Generate ST Seurat object
+rownames(ds_spot_metadata) <- colnames(ds_spot_unique)
+st_data <- CreateSeuratObject(counts = ds_spot_unique,
+                              meta.data = ds_spot_metadata,
+                              assay = "Spatial")
+
+spatial_coords <- read_csv(file=paste0(getwd(),'/Dataset/embryo_sci-Space_raw/spatial_coordinate.csv'))
+st_data@images$coordinate <- spatial_coords
+
+saveRDS(sc_data,file="/home/yll/benchmark_github/synthetic_st_dataset/embryo_singlecell_dataset.rds")
+saveRDS(st_data,file="/home/yll/benchmark_github/synthetic_st_dataset/embryo_spatialspot_dataset.rds")
+
 
 
 
