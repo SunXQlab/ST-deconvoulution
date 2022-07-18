@@ -33,7 +33,8 @@ All datasets can be downloaded from their respective sources:<br>
 * human developing heart ST data was downloaded from https://data.mendeley.com/datasets/mbvhhf8m62/2<br>
 
 ## Tools for benchmarking and integration
-**R**
+**R**<br>
+
 RCTD (by spacexr of version 2.0.0)<br>
 
 Giotto/PAGE/RANK/Hypergeometric (Version 1.1.0)<br>
@@ -48,12 +49,16 @@ STdeconvolve (Version 0.1.0)<br>
 
 EnDecon<br>
 
-**Python**
+**Python**<br>
 cell2location (Version 0.7a0, python = 3.7)<br>
-DestVI (scvi-tools Version 0.11.0)<br>
-stereoscope (Version 0.3.1)<br>
-STRIDE (Version 0.0.1b0)<br>
-Tangram (Version 1.0.0)<br>
+
+DestVI (scvi-tools Version 0.11.0, python = 3.7)<br>
+
+stereoscope (Version 0.3.1, python = 3.7)<br>
+
+STRIDE (Version 0.0.1b0, python = 3.9)<br>
+
+Tangram (Version 1.0.0, python = 3.8.5)<br>
 
 
 
