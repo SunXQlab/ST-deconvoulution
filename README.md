@@ -45,9 +45,9 @@ All datasets can be downloaded from their respective sources:<br>
 **Python**<br>
 * cell2location (Version 0.7a0, python = 3.7)<br>
 * DestVI (scvi-tools Version 0.11.0, python = 3.7)<br>
-* stereoscope (Version 0.3.1, python = 3.7)<br>
-* STRIDE (Version 0.0.1b0, python = 3.9)<br>
-* Tangram (Version 1.0.0, python = 3.8.5)<br>
+* stereoscope (Version 0.3.1, python = 3.9.5)<br>
+* STRIDE (Version 0.0.1b0, python = 3.8.12)<br>
+* Tangram (Version 1.0.0, python = 3.8.13)<br>
 
 
 
