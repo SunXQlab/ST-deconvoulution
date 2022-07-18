@@ -23,7 +23,7 @@ All datasets can be downloaded from their respective sources:<br>
 * mouse brain scRNA-seq data was downloaded from https://www.dropbox.com/s/ruseq3necn176c7/brain_sc.rds?dl=0<br>
 * human developing heart ST data was downloaded from https://data.mendeley.com/datasets/mbvhhf8m62/2<br>
 
-Dependencies and requirements for benchmarking and integration of ST deconvolution methods
+Tools for benchmarking and integration
 ---------------------------------
 **R**<br>
 RCTD (by spacexr of version 2.0.0)<br>
