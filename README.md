@@ -15,6 +15,11 @@ The main steps of benchamrking pipeline include:
 4) We develope an ensemble learning-based deconvolution method (EnDecon) for ST data by drawing on strengths from existing methods.<br> 
 
 ## Code Structure
+The respository mainly consists of the following modules:
+* `ST-Deconvolution` contains the scripts to reproduce 14 deconvolution methods
+* `synthtic_st_dataset` contains the scripts to generate the synthetic ST datasets
+* `EnDecon` contains the script to implement EnDecon by integrating 13 individul deconvolution methods
+* `Evaluation` contains the script to calculate the RMSE, PCC, JSD
 
 ## Datasets
 All datasets can be downloaded from their respective sources:<br>
@@ -24,8 +29,7 @@ All datasets can be downloaded from their respective sources:<br>
 * mouse brain scRNA-seq data was downloaded from https://www.dropbox.com/s/ruseq3necn176c7/brain_sc.rds?dl=0<br>
 * human developing heart ST data was downloaded from https://data.mendeley.com/datasets/mbvhhf8m62/2<br>
 
-Tools for benchmarking and integration
----------------------------------
+## Tools for benchmarking and integration
 **R**<br>
 RCTD (by spacexr of version 2.0.0)<br>
 Giotto/PAGE/RANK/Hypergeometric (Version 1.1.0)<br>
