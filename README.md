@@ -36,7 +36,7 @@ All datasets can be downloaded from their respective sources:<br>
 **R**
 * RCTD (by spacexr of version 2.0.0)<br>
 * Giotto/PAGE/RANK/Hypergeometric (Version 1.1.0)<br>
-* spatialDWLS (by Giotto of Version 1.0.4)<br>
+* spatialDWLS (by Giotto of Version 1.1.0)<br>
 * SPOTlight (Version 0.1.7)<br>
 * Seurat (Version 4.0.5)<br>
 * STdeconvolve (Version 0.1.0)<br>
