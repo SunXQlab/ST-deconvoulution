@@ -26,19 +26,19 @@ All datasets can be downloaded from their respective sources:<br>
 Dependencies and requirements for benchmarking and integration of ST deconvolution methods
 ---------------------------------
 **R**<br>
-RCTD(by spacexr of version 2.0.0)<br>
-Giotto/PAGE/RANK/Hypergeometric(Version 1.1.0)<br>
-spatialDWLS(by Giotto of Version 1.0.4)<br>
-SPOTlight(Version 0.1.7)<br>
-Seurat(Version 4.0.5)<br>
-STdeconvolve(Version 0.1.0)<br>
+RCTD (by spacexr of version 2.0.0)<br>
+Giotto/PAGE/RANK/Hypergeometric (Version 1.1.0)<br>
+spatialDWLS (by Giotto of Version 1.0.4)<br>
+SPOTlight (Version 0.1.7)<br>
+Seurat (Version 4.0.5)<br>
+STdeconvolve (Version 0.1.0)<br>
 EnDecon<br>
 **Python**<br>
-cell2location(Version 0.7a0)<br>
-DestVI(scvi-tools Version 0.11.0)<br>
-stereoscope(Version 0.3.1)<br>
-STRIDE(Version 0.0.1b0)<br>
-Tangram(Version 1.0.0)<br>
+cell2location (Version 0.7a0)<br>
+DestVI (scvi-tools Version 0.11.0)<br>
+stereoscope (Version 0.3.1)<br>
+STRIDE (Version 0.0.1b0)<br>
+Tangram (Version 1.0.0)<br>
 
 
 
