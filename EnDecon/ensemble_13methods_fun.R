@@ -12,36 +12,36 @@ bra_results <- results[which(results$Dataset=="mouse brain(Mapping)"), ]
 #the rank of highest Pearson is top.
 ## The rank of different methods in embryo (sci-Space) dataset
 emb_results <- emb_results[order(emb_results$RMSE), ]
-rank_RMSE <- 14 - rank(emb_results$RMSE)#rank_RMSE值越大表达排名越靠前，性能越好
-rank_Pearson <- rank(emb_results$Pearson)#rank_RMSE值越大表达排名越靠前，性能越好
-rank_JSD <- 14 - rank(emb_results$`quants_jsd_50%`)#rank_RMSE值越大表达排名越靠前，性能越好
+rank_RMSE <- 14 - rank(emb_results$RMSE)
+rank_Pearson <- rank(emb_results$Pearson)
+rank_JSD <- 14 - rank(emb_results$`quants_jsd_50%`)
 
 emb_rank <- data.frame(Methods = emb_results$Method,Dataset = emb_results$Dataset,
                        rank_RMSE = rank_RMSE, rank_Pearson = rank_Pearson, rank_JSD = rank_JSD)
-emb_results$AS <- rowMeans(emb_rank[3:5])#值越大表明排名越靠前，性能越好
-emb_rank$rank_AS <- 14 - rank(emb_results$AS)#(Ave_score)值越小表明排名越靠前，性能越好
+emb_results$AS <- rowMeans(emb_rank[3:5])
+emb_rank$rank_AS <- 14 - rank(emb_results$AS)#(Ave_score)
 
 ## The rank of different methods in MPOA (MERFISH) dataset
 mer_results <- mer_results[order(mer_results$RMSE), ]
-rank_RMSE <- 14 - rank(mer_results$RMSE)#rank_RMSE值越大表达排名越靠前，性能越好
-rank_Pearson <- rank(mer_results$Pearson)#rank_RMSE值越大表达排名越靠前，性能越好
-rank_JSD <- 14 - rank(mer_results$`quants_jsd_50%`)#rank_RMSE值越大表达排名越靠前，性能越好
+rank_RMSE <- 14 - rank(mer_results$RMSE)
+rank_Pearson <- rank(mer_results$Pearson)
+rank_JSD <- 14 - rank(mer_results$`quants_jsd_50%`)
 
 mer_rank <- data.frame(Methods = mer_results$Method,Dataset = mer_results$Dataset,
                        rank_RMSE = rank_RMSE, rank_Pearson = rank_Pearson, rank_JSD = rank_JSD)
-mer_results$AS <- rowMeans(mer_rank[3:5])#值越大表明排名越靠前，性能越好
-mer_rank$rank_AS <- 14 - rank(mer_results$AS)#值越小表明排名越靠前，性能越好
+mer_results$AS <- rowMeans(mer_rank[3:5])
+mer_rank$rank_AS <- 14 - rank(mer_results$AS)
 
 ## The rank of different methods in mouse brain (Mapping) dataset
 bra_results <- bra_results[order(bra_results$RMSE), ]
-rank_RMSE <- 14 - rank(bra_results$RMSE)#rank_RMSE值越大表达排名越靠前，性能越好
-rank_Pearson <- rank(bra_results$Pearson)#rank_RMSE值越大表达排名越靠前，性能越好
-rank_JSD <- 14 - rank(bra_results$`quants_jsd_50%`)#rank_RMSE值越大表达排名越靠前，性能越好
+rank_RMSE <- 14 - rank(bra_results$RMSE)
+rank_Pearson <- rank(bra_results$Pearson)
+rank_JSD <- 14 - rank(bra_results$`quants_jsd_50%`)
 
 bra_rank <- data.frame(Methods = bra_results$Method,Dataset = bra_results$Dataset,
                        rank_RMSE = rank_RMSE, rank_Pearson = rank_Pearson, rank_JSD = rank_JSD)
-bra_results$AS <- rowMeans(bra_rank[3:5])#值越大表明排名越靠前，性能越好
-bra_rank$rank_AS <- 14 - rank(bra_results$AS)#值越小表明排名越靠前，性能越好
+bra_results$AS <- rowMeans(bra_rank[3:5])
+bra_rank$rank_AS <- 14 - rank(bra_results$AS)
 
 loc1 <- match(emb_rank$Methods, mer_rank$Methods)
 mer_rank <- mer_rank[loc1,]
