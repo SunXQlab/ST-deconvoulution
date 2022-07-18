@@ -21,7 +21,7 @@ The respository mainly consists of the following modules:
 * `EnDecon` contains the script to implement EnDecon by integrating 13 individul deconvolution methods
 * `Evaluation` contains the script to calculate the RMSE, PCC, JSD
 * `Benchamarking.R` contains the script to benchmark different deconvolution methods on your own datasets. 
-* Note that the cell2location, DestVI, stereoscope, STRIDE, Tangram are written in Python, and each method requires different Python version, so `benchmarking.R` does not include methods using Python.* 
+*Note that the cell2location, DestVI, stereoscope, STRIDE, Tangram are written in Python, and each method requires different Python version, so `benchmarking.R` does not include methods using Python.* 
 
 ## Datasets
 All datasets can be downloaded from their respective sources:<br>
