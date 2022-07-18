@@ -22,7 +22,7 @@ The respository mainly consists of the following modules:
 * `synthetic_st_dataset` contains the scripts to generate the synthetic ST datasets<br>
 * `benchamarking.R` contains the script to benchmark different deconvolution methods on your own datasets. <br>
 
-*Note that the cell2location, DestVI, stereoscope, STRIDE, Tangram are written in Python, and each method requires different Python version, so `benchmarking.R` does not include methods using Python.* 
+*Note that the cell2location, DestVI, stereoscope, STRIDE, and Tangram are written in Python and each requires different Python versions, so `benchmarking.R` does not include these Python-based tools.* 
 
 ## Datasets
 All datasets can be downloaded from their respective sources:<br>
