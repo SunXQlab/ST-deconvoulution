@@ -18,7 +18,7 @@ The main steps of benchamrking pipeline include:
 ## Code Structure
 The respository mainly consists of the following modules:
 * `Evaluation` contains the script to calculate the RMSE, PCC, JSD<br>
-* `ST_Deconvolution` contains the scripts to reproduce 14 deconvolution methods and the proporse EnDecon method<br>
+* `ST_Deconvolution` contains the scripts to reproduce 14 deconvolution methods and the proporsed EnDecon method<br>
 * `synthetic_st_dataset` contains the scripts to generate the synthetic ST datasets<br>
 * `benchamarking.R` contains the script to benchmark different deconvolution methods on your own datasets. <br>
 
