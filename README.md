@@ -13,7 +13,7 @@ The main steps of benchamrking pipeline include:
 2) We investigate the robustness of different methods to sequencing depth, spot size, and the choice of normalization.<br> 
 3) We use RMSE, PCC, JSD to evaluate the performance of the 14 computational methods in disentangling cell type contribution from a single capture spot based on the above synthetic ST datasets.<br>
 4) We develope an ensemble learning-based deconvolution method (EnDecon) for ST data by drawing on strengths from existing methods.<br> 
-5) We adopt in situ sequencing (ISS) data and in situ hybridization (ISH) data to further evaluate the performance of all methods
+5) We adopt *in situ sequencing* (ISS) data and *in situ hybridization* (ISH) data to further evaluate the performance of all methods
 
 ## Code Structure
 The respository mainly consists of the following modules:
