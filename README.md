@@ -1,6 +1,6 @@
 # Benchmarking and integration of methods for deconvoluting spatial transcriptomic data
 
-![image](https://github.com/SunXQlab/ST-deconvoulution/blob/main/fig.framework-github.jpg)
+![image](https://github.com/SunXQlab/ST-deconvoulution/blob/main/Fig1.framework-github.jpg)
 
 ## Introduction
 
