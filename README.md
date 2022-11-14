@@ -32,6 +32,8 @@ All datasets can be downloaded from their respective sources:<br>
 * mouse brain ST data was download from https://www.dropbox.com/s/azjysbt7lbpmbew/brain_st_cortex.rds?dl=0 <br>
 * mouse brain scRNA-seq data was downloaded from https://www.dropbox.com/s/ruseq3necn176c7/brain_sc.rds?dl=0<br>
 * human developing heart ST data was downloaded from https://data.mendeley.com/datasets/mbvhhf8m62/2<br>
+* human developing heart ISS data was obtained from https://doi.org/10.6084/m9.figshare.10058048.v1<br>
+* mouse brain ISH image data was downloaded from https://mouse.brain-map.org/.<br>
 
 ## Tools for benchmarking and integration
 **R**
