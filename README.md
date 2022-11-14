@@ -13,12 +13,13 @@ The main steps of benchamrking pipeline include:
 2) We investigate the robustness of different methods to sequencing depth, spot size, and the choice of normalization.<br> 
 3) We use RMSE, PCC, JSD to evaluate the performance of the 14 computational methods in disentangling cell type contribution from a single capture spot based on the above synthetic ST datasets.<br>
 4) We develope an ensemble learning-based deconvolution method (EnDecon) for ST data by drawing on strengths from existing methods.<br> 
+5) We adopt in situ sequencing (ISS) data and in situ hybridization (ISH) data to further evaluate the performance of all methods
 
 ## Code Structure
 The respository mainly consists of the following modules:
-* `EnDecon` contains the script to implement EnDecon by integrating 13 individul deconvolution methods<br>
+* `EnDecon.R` contains the script to implement EnDecon by integrating top three individul deconvolution methods<br>
 * `Evaluation` contains the script to calculate the RMSE, PCC, JSD<br>
-* `ST_Deconvolution` contains the scripts to reproduce 14 deconvolution methods<br>
+* `ST_Deconvolution` contains the scripts to reproduce 14 deconvolution methods and to process the iuput data<br>
 * `synthetic_st_dataset` contains the scripts to generate the synthetic ST datasets<br>
 * `benchamarking.R` contains the script to benchmark different deconvolution methods on your own datasets. <br>
 
