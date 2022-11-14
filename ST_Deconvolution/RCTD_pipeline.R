@@ -3,14 +3,14 @@ RCTD_pipeline <- function(sc_data, st_data) {
   
   #sc_count must be gene * cell
   #the rownames of sc_meta = colnames of sc_count
-  #
+  
   library(spacexr)
   library(pryr)
   library(slam)
   library(Matrix)
   library(Seurat)
   
-  #output_path <- getwd()
+  output_path <- getwd()
   #load scRNA-seq data and ST data
   ptm <-proc.time()
   #load("/home/yll/spatial_decon_methods/STdeconvolve_ReferenceFree/MERFISH_singlecell_dataset_new.RData")
@@ -36,7 +36,7 @@ RCTD_pipeline <- function(sc_data, st_data) {
   #st_count <- t(as.matrix(st_count))
   st_count <- st_data@assays$Spatial@counts
   counts_st <- round(st_count) 
-  spatial_loc <- st_data@meta.data 
+  spatial_loc <- st_data@images$coordinates
   
   genes_0_st <- which(! rowSums(as.matrix(counts_st) == 0) == ncol(counts_st))
   counts_st <- counts_st[genes_0_st, ] 
@@ -57,9 +57,13 @@ RCTD_pipeline <- function(sc_data, st_data) {
   decon_mtrx <- as.matrix(myRCTD@results$weights) #3071 spots
   norm_mtrx <- normalize_weights(decon_mtrx)
   
-   # write.table(norm_mtrx, 
-   #           paste0(output_path, '/RCTD_result.csv'),
-   #           row.names = FALSE, col.names = TRUE, sep=",")
+  WorkDir <- paste0(output_path,"/deconvolution_results/decon_", "RCTD")
+  dir.create(WorkDir, recursive = TRUE, showWarnings = F)
+  cat(paste0("WorkDir: ", WorkDir, "\n"))
+  
+  write.table(norm_mtrx,
+              paste0(WorkDir, '/decon_result.csv'),
+              row.names = TRUE, col.names = TRUE, sep=",")
   
   runtime <- (proc.time() - ptm)/60
   memory <- mem_used()
