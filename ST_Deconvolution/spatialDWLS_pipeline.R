@@ -1,5 +1,6 @@
-spatialDWLS_pipeline <- function(sc_obj, st_obj){
+spatialDWLS_pipeline <- function(sc_obj, st_obj,python_path){
   
+  output_path <- getwd()
   #spatialDWLS deconvolution
   
   library(Giotto)
@@ -25,7 +26,8 @@ spatialDWLS_pipeline <- function(sc_obj, st_obj){
   count_sc <- as.data.frame(count_sc)
   
   #Identification of marker gene expression in single cell
-  my_python_path = "/usr/bin/python3"
+  #python_path: "D:/Anaconda3/envs/cell2loc_env/python.exe" or "D:/Anaconda3/python.exe"
+  my_python_path = paste0(python_path,"/python.exe") #
   instrs = createGiottoInstructions(python_path = my_python_path)
   sc_data <- createGiottoObject(raw_exprs = count_sc,instructions = instrs)
   sc_data <- normalizeGiotto(gobject = sc_data, scalefactor = 6000, verbose = T)
@@ -54,8 +56,8 @@ spatialDWLS_pipeline <- function(sc_obj, st_obj){
   colnames(Sig_exp) <- unique(id) 
   
   #Spatial transcriptomic data analysis
-  count_st <- st_obj@assays$Spatial@counts
-  spatial_loc <- st_obj@meta.data 
+  count_st <- st_obj@assays$Spatial@counts %>% as.data.frame()
+  spatial_loc <- st_obj@images$coordinates
   
   #data pre-processing
   genes_0_st <- which(! rowSums(as.matrix(count_st) == 0) == ncol(count_st))
@@ -69,12 +71,12 @@ spatialDWLS_pipeline <- function(sc_obj, st_obj){
                                 spatial_locs = spatial_loc,
                                 instructions = instrs)
   
-  #st_data <- filterGiotto(gobject = st_data,
-  #                        expression_threshold = 1,
-  #                        gene_det_in_min_cells = 10,
-  #                        min_det_genes_per_cell = 10,
-  #                        expression_values = c('raw'),
-  #                        verbose = T) 
+  st_data <- filterGiotto(gobject = st_data,
+                         expression_threshold = 0,
+                         gene_det_in_min_cells = 0,
+                         min_det_genes_per_cell = 0,
+                         expression_values = c('raw'),
+                         verbose = T)
   
   st_data <- normalizeGiotto(gobject = st_data)
   st_data <- calculateHVG(gobject = st_data)
@@ -90,9 +92,13 @@ spatialDWLS_pipeline <- function(sc_obj, st_obj){
   decon_mtrx <- column_to_rownames(decon_mtrx,var="cell_ID")
   decon_mtrx <- as.matrix(decon_mtrx)
   
-  # write.table(st_data@spatial_enrichment$DWLS, 
-  #           paste0(output_path, '/SpatialDWLS_result.csv'),
-  #           row.names = FALSE, col.names = TRUE, sep=",")
+  WorkDir <- paste0(output_path,"/deconvolution_results/decon_", "spatialDWLS")
+  dir.create(WorkDir, recursive = TRUE, showWarnings = F)
+  cat(paste0("WorkDir: ", WorkDir, "\n"))
+  
+  write.table(decon_mtrx,
+              paste0(WorkDir, '/decon_result.csv'),
+              row.names = TRUE, col.names = TRUE, sep=",")
   
   runtime <- (proc.time() - ptm)/60
   memory <- mem_used()
@@ -102,6 +108,8 @@ spatialDWLS_pipeline <- function(sc_obj, st_obj){
       sep = "\n")
   return(decon_mtrx)
 }
+
+
 
 
 
