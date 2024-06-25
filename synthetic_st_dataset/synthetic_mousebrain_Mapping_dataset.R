@@ -105,8 +105,8 @@ cellTypeProp <- as.matrix(cellType_stat[,-16])
 cellTypeProp <- t(apply(cellTypeProp,1,function(x){x/sum(x)}))
 #each spot coordinate
 patches <- unique(sc_coord$patch_id[which(!sc_coord$patch_id == "")])
-spot_coord.x <- NULL  #用来存储celltype的构成信息
-spot_coord.y <- NULL #用来存储每个位置对应的cellname信息
+spot_coord.x <- NULL  
+spot_coord.y <- NULL 
 
 for (k in patches){
   
