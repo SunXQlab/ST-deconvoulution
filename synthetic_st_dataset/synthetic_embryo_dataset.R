@@ -24,12 +24,12 @@ colnames(count_mat) <- cell_meta$Cell
 slide14_cell_meta <- subset.data.frame(cell_meta,
                                        cell_meta$slide_id=="Slide 14")
 rownames(slide14_cell_meta) <- NULL
-pos_slide14 <- which(cell_meta$slide_id=="Slide 14")#根据slide-14在cell_metadata中的位置选出slide_14对应的counts和gene_name
+pos_slide14 <- which(cell_meta$slide_id=="Slide 14")
 slide14_count_mat <- count_mat[,pos_slide14]
 
 slide14_cell_meta <- subset.data.frame(cell_meta,cell_meta$slide_id=="Slide 14")
 rownames(slide14_cell_meta) <- NULL
-pos_slide14 <- which(cell_meta$slide_id=="Slide 14")#根据slide-14在cell_metadata中的位置选出slide_14对应的counts和gene_name
+pos_slide14 <- which(cell_meta$slide_id=="Slide 14")
 slide14_count_mat <- count_mat[,pos_slide14]
 
 #obtain gene name
@@ -37,7 +37,7 @@ n <- length(gene_meta$gene_short_name)
 gene <- lapply(1:n,function(x){
   strsplit(gene_meta$gene_short_name[x],"\\t")[[1]][2]
 })
-gene <- unlist(gene) #对list进行unlist会自动把里面的字符变为一个list中的向量
+gene <- unlist(gene) 
 rownames(slide14_count_mat) <- gene
 colnames(slide14_count_mat) <- slide14_cell_meta$Cell
 
@@ -50,14 +50,14 @@ cell_coords <- mutate(x_slide14,y_slide14)
 colnames(cell_coords) <- c("Row","Col")
 
 unique_coords <- unique(paste(cell_coords$Row,cell_coords$Col,sep=","))
-celltype_list <- list()  #用来存储celltype的构成信息
-local_info_list <- list() #用来存储每个位置对应的cellname信息
+celltype_list <- list()  
+local_info_list <- list() 
 for (k in unique_coords){
   
   pos_cell = which(cell_coords$Row==strsplit(k,split=",")[[1]][1] & cell_coords$Col==strsplit(k,split=",")[[1]][2])
   local_celltype = cell_meta$final_cluster_label[pos_cell]
   local_info = as.data.frame(cbind(pos_cell,local_celltype))
-  local_info_list[[k]] = local_info  #包括pos和pos对应的celltype信息 
+  local_info_list[[k]] = local_info  
   
   celltype_number = as.data.frame(table(cell_meta$final_cluster_label[pos_cell]))
   cell_prop = celltype_number$Freq/sum(celltype_number$Freq)
@@ -68,10 +68,9 @@ for (k in unique_coords){
 #generate simulated spot by synthesising cells with the same coordinates
 ds_spot<-lapply(unique_coords,function(n){
   
-  #一个位置上只有一个cell的情况
+  
   if (dim(celltype_list[[n]])[1]==1){
     
-    #local_info_list[[n]][1]是data.frame,里面的pos_cell是字符型，不能用于提取矩阵的某一列，需要变为数字型
     pos_spot<-as.numeric(unlist(local_info_list[[n]][1]))
     prop<-celltype_list[[n]][3]
     syn_spot_count<-slide14_count_mat[,pos_spot]
@@ -89,14 +88,10 @@ ds_spot<-lapply(unique_coords,function(n){
     
   }else{
     
-    # 一个位置上有多个cells的情况
     #celltype_select<-celltype_list[[n]][which(celltype_list[[n]]$Freq>=2),]
-    #celltype_name_spot<-as.character(celltype_select$Var1) # 字符串
-    
-    # %in%：用于判断前一个向量的元素是否在后一个向量中,class(pos_select)=data.frame
+    #celltype_name_spot<-as.character(celltype_select$Var1) 
     #pos_select<-local_info_list[[n]][which(local_info_list[[n]]$local_celltype %in% celltype_name_spot),]
     
-    #随机选取2-10个cells,class(pos_select$pos_cell)=character
     pos_spot<-as.numeric(unlist(local_info_list[[n]][1]))
     prop<-celltype_list[[n]][3]
     #tmp_ds<-cell_metadata_new[pos_spot,] %>% mutate(prop)
@@ -119,7 +114,7 @@ ds_spot<-lapply(unique_coords,function(n){
 })
 
 #generate simulated ST metadata
-ds_spot_metadata <- purrr::map(ds_spot, 2) %>% #选取ds_spot的第二列
+ds_spot_metadata <- purrr::map(ds_spot, 2) %>% 
   dplyr::bind_rows() %>%
   data.frame()
 ds_spot_metadata[is.na(ds_spot_metadata)] <- 0
@@ -142,8 +137,8 @@ colnames(ds_spot_count) <- ds_spot_name
 #remove repeated gene
 ds_count <- mutate(ds_spot_count,GENE=gene)
 ds_count_unique <- aggregate(ds_count,by=list(ds_count$GENE),FUN=mean,na.rm=TRUE)
-ds_spot_unique <- ds_count_unique[,-1395]#去掉最后一列gene名
-ds_spot_unique <- column_to_rownames(ds_count_unique,var="Group.1")#去掉第一列group.1
+ds_spot_unique <- ds_count_unique[,-1395]
+ds_spot_unique <- column_to_rownames(ds_count_unique,var="Group.1")
 ds_spot_unique <- ds_spot_unique[,-1394]
 
 #spatial count data and meta data
